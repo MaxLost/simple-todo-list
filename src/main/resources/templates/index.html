@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="base :: head(~{::title})">
+  <title>ToDo List</title>
+</head>
+
+<body th:replace="base :: body(~{::h1}, ~{::section})">
+  <h1>ToDo List</h1>
+
+  <section>
+    <div class="taskList">
+      <form class="form-horizontal" role="form" th:action="@{/update}" th:object="${items}" method="POST">
+        <table class="table table-bordered table-striped" id="taskItems" style="border-color: #333333;">
+          <thead>
+            <tr>
+              <th style="border-color: #333333;">Name</th>
+              <th style="border-color: #333333;">Description</th>
+              <th style="border-color: #333333;">Complete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="item,i : *{taskList}" th:style="(${item.priority} == 'a') ? 'background-color: #ea9999;'
+                                                      : ((${item.priority} == 'b') ? 'background-color: #eae881;'
+                                                      : ((${item.priority} == 'c') ? 'background-color: #b6d7a8;'
+                                                      : 'background-color: #c9daf8;'))">
+
+              <input type="hidden" th:field="*{taskList[__${i.index}__].id}"/>
+
+              <td style="border-color: #333333;" th:text="${item.name}">Item_name</td>
+
+              <input type="hidden" th:field="*{taskList[__${i.index}__].name}" />
+              <input type="hidden" th:field="*{taskList[__${i.index}__].priority}" />
+
+              <td style="border-color: #333333;" th:text="${item.description}">item_description</td>
+
+              <input type="hidden" th:field="*{taskList[__${i.index}__].description}" />
+
+              <td style="border-color: #333333;">
+                <input type="checkbox" th:checked="${item.completed} == true" th:field="*{taskList[__${i.index}__].completed}" />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- Update Button -->
+        <button type="submit" class="btn btn-primary">Update Tasks</button>
+      </form>
+    </div>
+
+    <hr />
+
+    <!-- Item Input Form -->
+    <div class="todoForm">
+      <form class="form-horizontal" role="form" th:action="@{/add}" th:object="${new_item}" method="POST">
+
+        <div class="form-group">
+          <label for="inputItemPriority" class="col-sm-2">Task Priority</label>
+          <div class="col-sm-10">
+
+            <select id="inputItemPriority" th:field="*{priority}">
+              <option th:value="a">Urgent & Important</option>
+              <option th:value="b">Urgent</option>
+              <option th:value="c">Important</option>
+              <option th:value="d" selected>Regular</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputItemName" class="col-sm-2">Task Name</label>
+          <div class="col-sm-10">
+            <input type="text" th:field="*{name}" class="form-control" id="inputItemName" placeholder="Enter name" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputItemDescription" class="col-sm-2">Task Description</label>
+          <div class="col-sm-10">
+            <input type="text" th:field="*{description}" class="form-control" id="inputItemDescription" placeholder="Enter description" />
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add Task</button>
+
+      </form>
+    </div>
+  </section>
+
+</body>
+
+</html>
