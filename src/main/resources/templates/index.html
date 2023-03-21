@@ -37,13 +37,14 @@
               <input type="hidden" th:field="*{taskList[__${i.index}__].description}" />
 
               <td style="border-color: #333333;">
-                <input type="checkbox" th:checked="${item.completed} == true" th:field="*{taskList[__${i.index}__].completed}" />
+                <input type="checkbox" th:checked="${item.completed} == true" th:field="*{taskList[__${i.index}__].completed}"
+                th:onclick = "document.getElementById('taskUpdateButton').click()"/>
               </td>
             </tr>
           </tbody>
         </table>
         <!-- Update Button -->
-        <button type="submit" class="btn btn-primary">Update Tasks</button>
+        <button type="submit" id="taskUpdateButton" style="width: 1px;" hidden></button>
       </form>
     </div>
 
